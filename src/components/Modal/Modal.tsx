@@ -1,58 +1,68 @@
-/* eslint-disable prettier/prettier */
-import {
-    Button,
-    ModalBody,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    Modal as NextUIModal,
-} from '@nextui-org/react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as react from '@nextui-org/react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { FormTextInput } from '../FormInput/FormTextInput'
 
 interface ModalProps {
   isOpen: boolean
   onOpenChange: (open: boolean) => void
 }
 
+const newTransactionFormSchema = z.object({
+  description: z.string(),
+  price: z.string(),
+  //   type: z.enum(['income', 'outcome']),
+})
+
+type NewTransactionFormInputs = z.infer<typeof newTransactionFormSchema>
+
 export function Modal({ isOpen, onOpenChange }: ModalProps) {
+  const {
+    control,
+    handleSubmit,
+    register,
+    reset,
+    formState: { isSubmitting },
+  } = useForm<NewTransactionFormInputs>({
+    resolver: zodResolver(newTransactionFormSchema),
+  })
+
+  function handleFormSubmitForm(data: NewTransactionFormInputs) {
+    console.log(data)
+  }
+
   return (
-    <NextUIModal isOpen={isOpen} onOpenChange={onOpenChange}>
-      <ModalContent>
-        {(onClose) => (
-          <>
-            <ModalHeader className="flex flex-col gap-1">
-              Modal Title
-            </ModalHeader>
-            <ModalBody>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-                pulvinar risus non risus hendrerit venenatis. Pellentesque sit
-                amet hendrerit risus, sed porttitor quam.
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-                pulvinar risus non risus hendrerit venenatis. Pellentesque sit
-                amet hendrerit risus, sed porttitor quam.
-              </p>
-              <p>
-                Magna exercitation reprehenderit magna aute tempor cupidatat
-                consequat elit dolor adipisicing. Mollit dolor eiusmod sunt ex
-                incididunt cillum quis. Velit duis sit officia eiusmod Lorem
-                aliqua enim laboris do dolor eiusmod. Et mollit incididunt nisi
-                consectetur esse laborum eiusmod pariatur proident Lorem eiusmod
-                et. Culpa deserunt nostrud ad veniam.
-              </p>
-            </ModalBody>
-            <ModalFooter>
-              <Button color="danger" variant="light" onPress={onClose}>
-                Close
-              </Button>
-              <Button color="primary" onPress={onClose}>
-                Action
-              </Button>
-            </ModalFooter>
-          </>
-        )}
-      </ModalContent>
-    </NextUIModal>
+    <react.Modal
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+      backdrop="blur"
+      classNames={{
+        body: 'py-6',
+        base: 'border-[#292f46] bg-gray-900 dark:bg-[#19172c] text-[#a8b0d3]',
+        closeButton: 'hover:bg-white/5 text-4xl active:bg-white/10',
+      }}
+    >
+      <react.ModalContent>
+        <react.ModalHeader className="flex flex-col gap-1">
+          Nova transação
+        </react.ModalHeader>
+
+        <form onSubmit={handleSubmit(handleFormSubmitForm)}>
+          <react.ModalBody>
+            <FormTextInput control={control} name="description" />
+
+            <FormTextInput control={control} name="price" />
+
+            <react.Button
+              type="submit"
+              className="w-full text-white bg-green-700 text-lg py-6"
+            >
+              Action
+            </react.Button>
+          </react.ModalBody>
+        </form>
+      </react.ModalContent>
+    </react.Modal>
   )
 }
