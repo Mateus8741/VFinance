@@ -7,12 +7,14 @@ export function Header() {
       <Logo />
 
       <button className="flex flex-row items-center justify-center gap-3 p-4 bg-gray-900 rounded-md">
-        <ArrowRightLeft
-          size="24"
-          className="text-green-700"
-          strokeLinecap="round"
-          stroke="currentColor"
-        />
+        <div className="rotate-90">
+          <ArrowRightLeft
+            size="24"
+            className="text-green-700"
+            strokeLinecap="round"
+            stroke="currentColor"
+          />
+        </div>
 
         <p className="text-sm font-bold text-green-700">Nova transação</p>
       </button>
