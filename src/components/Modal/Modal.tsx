@@ -1,8 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as react from '@nextui-org/react'
+import { RadioGroup } from '@nextui-org/react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { FormTextInput } from '../FormInput/FormTextInput'
+import { CustomRadio } from '../RadioButton/RadioButton'
 
 interface ModalProps {
   isOpen: boolean
@@ -50,9 +52,22 @@ export function Modal({ isOpen, onOpenChange }: ModalProps) {
 
         <form onSubmit={handleSubmit(handleFormSubmitForm)}>
           <react.ModalBody>
-            <FormTextInput control={control} name="description" />
+            <FormTextInput
+              control={control}
+              name="description"
+              placeholder="Descrição"
+            />
 
-            <FormTextInput control={control} name="price" />
+            <FormTextInput control={control} name="price" placeholder="Preço" />
+
+            <RadioGroup
+              orientation="horizontal"
+              className="flex flex-row gap-4 justify-center w-full"
+              onChange={(e) => console.log(e.target.value)}
+            >
+              <CustomRadio value="entrada">Entrada</CustomRadio>
+              <CustomRadio value="saida">Saída</CustomRadio>
+            </RadioGroup>
 
             <react.Button
               type="submit"
