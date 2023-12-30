@@ -1,3 +1,4 @@
+import { useStoreFinance } from '@/hooks/useStoreFinance'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as react from '@nextui-org/react'
 import { RadioGroup } from '@nextui-org/react'
@@ -20,6 +21,8 @@ const newTransactionFormSchema = z.object({
 type NewTransactionFormInputs = z.infer<typeof newTransactionFormSchema>
 
 export function Modal({ isOpen, onOpenChange }: ModalProps) {
+  const { setTransaction } = useStoreFinance()
+
   const {
     control,
     handleSubmit,
@@ -36,7 +39,14 @@ export function Modal({ isOpen, onOpenChange }: ModalProps) {
   })
 
   function handleFormSubmitForm(data: NewTransactionFormInputs) {
-    console.log(data)
+    setTransaction({
+      id: Math.random(),
+      description: data.description,
+      price: parseFloat(data.price),
+      type: data.type,
+      createdAt: new Date().toDateString(),
+    })
+    reset()
   }
 
   return (

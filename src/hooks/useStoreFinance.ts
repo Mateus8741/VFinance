@@ -6,18 +6,19 @@ import { createJSONStorage, persist } from 'zustand/middleware'
 
 interface IStore {
   transaction: Transaction[]
-  setTransaction: (transaction: Transaction[]) => void
+  setTransaction: (transaction: Transaction) => void
 }
 
 const useTransactionStore = create<IStore>()(
   persist(
     (set) => ({
       transaction: [],
-      setTransaction: (transaction) => set({ transaction }),
+      setTransaction: (transaction) =>
+        set((state) => ({ transaction: [...state.transaction, transaction] })),
     }),
     {
       name: 'transaction-storage',
-      storage: createJSONStorage(() => localStorage.set('transaction')),
+      storage: createJSONStorage(() => localStorage),
     },
   ),
 )
