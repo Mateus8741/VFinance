@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as react from '@nextui-org/react'
 import { RadioGroup } from '@nextui-org/react'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { FormTextInput } from '../FormInput/FormTextInput'
 import { CustomRadio } from '../RadioButton/RadioButton'
@@ -27,6 +27,12 @@ export function Modal({ isOpen, onOpenChange }: ModalProps) {
     formState: { isSubmitting },
   } = useForm<NewTransactionFormInputs>({
     resolver: zodResolver(newTransactionFormSchema),
+
+    defaultValues: {
+      description: '',
+      price: '',
+      type: undefined,
+    },
   })
 
   function handleFormSubmitForm(data: NewTransactionFormInputs) {
@@ -59,14 +65,20 @@ export function Modal({ isOpen, onOpenChange }: ModalProps) {
 
             <FormTextInput control={control} name="price" placeholder="Preço" />
 
-            <RadioGroup
-              orientation="horizontal"
-              className="flex flex-row gap-4 justify-center w-full"
-              onChange={(e) => console.log(e.target.value)}
-            >
-              <CustomRadio value="income">Entrada</CustomRadio>
-              <CustomRadio value="outcome">Saída</CustomRadio>
-            </RadioGroup>
+            <Controller
+              control={control}
+              name="type"
+              render={({ field }) => (
+                <RadioGroup
+                  orientation="horizontal"
+                  className="flex flex-row gap-4 justify-center w-full"
+                  onChange={(e) => field.onChange(e.target.value)}
+                >
+                  <CustomRadio value="income">Entrada</CustomRadio>
+                  <CustomRadio value="outcome">Saída</CustomRadio>
+                </RadioGroup>
+              )}
+            />
 
             <react.Button
               type="submit"
