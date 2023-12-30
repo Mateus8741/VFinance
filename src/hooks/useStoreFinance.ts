@@ -1,3 +1,5 @@
+'use client'
+
 import { Transaction } from '@/models/Transaction'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
