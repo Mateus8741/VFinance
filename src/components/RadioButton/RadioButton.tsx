@@ -12,7 +12,7 @@ export function CustomRadio(props: RadioProps) {
     getLabelWrapperProps,
   } = useRadio(props)
 
-  const isEntry = props.value === 'entrada'
+  const isEntry = props.value === 'income'
 
   return (
     <Component

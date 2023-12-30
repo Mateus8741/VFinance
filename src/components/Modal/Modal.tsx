@@ -14,7 +14,7 @@ interface ModalProps {
 const newTransactionFormSchema = z.object({
   description: z.string(),
   price: z.string(),
-  //   type: z.enum(['income', 'outcome']),
+  type: z.enum(['income', 'outcome']),
 })
 
 type NewTransactionFormInputs = z.infer<typeof newTransactionFormSchema>
@@ -23,7 +23,6 @@ export function Modal({ isOpen, onOpenChange }: ModalProps) {
   const {
     control,
     handleSubmit,
-    register,
     reset,
     formState: { isSubmitting },
   } = useForm<NewTransactionFormInputs>({
@@ -65,15 +64,15 @@ export function Modal({ isOpen, onOpenChange }: ModalProps) {
               className="flex flex-row gap-4 justify-center w-full"
               onChange={(e) => console.log(e.target.value)}
             >
-              <CustomRadio value="entrada">Entrada</CustomRadio>
-              <CustomRadio value="saida">Saída</CustomRadio>
+              <CustomRadio value="income">Entrada</CustomRadio>
+              <CustomRadio value="outcome">Saída</CustomRadio>
             </RadioGroup>
 
             <react.Button
               type="submit"
               className="w-full text-white bg-green-700 text-lg py-6"
             >
-              Action
+              Cadastrar
             </react.Button>
           </react.ModalBody>
         </form>
