@@ -5,6 +5,7 @@ import {
   ArrowUpCircleIcon,
   DollarSignIcon,
 } from 'lucide-react'
+import { Suspense } from 'react'
 import { VariantProps, tv } from 'tailwind-variants'
 
 const $cardStyle = tv({
@@ -77,9 +78,11 @@ export function Card({ value, cardsType = 'inComing' }: CardProps) {
           {icon}
         </div>
 
-        <span className={`pt-2 text-3xl font-bold ${text()}`}>
-          {formattedMoney}
-        </span>
+        <Suspense fallback={<div>Loading...</div>}>
+          <span className={`pt-2 text-3xl font-bold ${text()}`}>
+            {formattedMoney}
+          </span>
+        </Suspense>
       </CardBody>
     </UICard>
   )
