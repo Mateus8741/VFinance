@@ -2,7 +2,8 @@
 
 import { useStoreFinance } from '@/hooks/useStoreFinance'
 import { useDisclosure } from '@nextui-org/react'
-import { ArrowRightLeft } from 'lucide-react'
+import { ActivityIcon, ArrowRightLeft } from 'lucide-react'
+import { CustomButton } from '../CustomButton/CustomButton'
 import { Logo } from '../Logo/Logo'
 import { Modal } from '../Modal/Modal'
 
@@ -12,7 +13,9 @@ export function Header() {
 
   return (
     <header className="flex items-center justify-between p-4 bg-gray-950">
-      <Logo />
+      <div className="mr-auto">
+        <Logo />
+      </div>
 
       <button
         className="flex flex-row items-center justify-center gap-3 p-4 bg-gray-900 rounded-md"
@@ -29,6 +32,12 @@ export function Header() {
 
         <p className="text-sm font-bold text-green-700">Nova transação</p>
       </button>
+
+      <CustomButton
+        title="Limpar transações"
+        icon={ActivityIcon}
+        onClick={clearTransactions}
+      />
 
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} />
     </header>
