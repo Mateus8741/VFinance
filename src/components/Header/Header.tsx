@@ -1,5 +1,6 @@
 'use client'
 
+import { useStoreFinance } from '@/hooks/useStoreFinance'
 import { useDisclosure } from '@nextui-org/react'
 import { ArrowRightLeft } from 'lucide-react'
 import { Logo } from '../Logo/Logo'
@@ -7,6 +8,7 @@ import { Modal } from '../Modal/Modal'
 
 export function Header() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
+  const { clearTransactions } = useStoreFinance()
 
   return (
     <header className="flex items-center justify-between p-4 bg-gray-950">

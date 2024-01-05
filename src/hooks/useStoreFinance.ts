@@ -7,6 +7,7 @@ import { createJSONStorage, persist } from 'zustand/middleware'
 interface IStore {
   transaction: Transaction[]
   setTransaction: (transaction: Transaction) => void
+  clearTransactions: () => void
 }
 
 const useTransactionStore = create<IStore>()(
@@ -15,6 +16,7 @@ const useTransactionStore = create<IStore>()(
       transaction: [],
       setTransaction: (transaction) =>
         set((state) => ({ transaction: [...state.transaction, transaction] })),
+      clearTransactions: () => set({ transaction: [] }),
     }),
     {
       name: 'transaction-storage',
@@ -24,7 +26,8 @@ const useTransactionStore = create<IStore>()(
 )
 
 export function useStoreFinance() {
-  const { transaction, setTransaction } = useTransactionStore()
+  const { transaction, setTransaction, clearTransactions } =
+    useTransactionStore()
 
-  return { transaction, setTransaction }
+  return { transaction, setTransaction, clearTransactions }
 }
